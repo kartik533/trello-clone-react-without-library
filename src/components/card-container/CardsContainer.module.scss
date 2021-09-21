@@ -1,15 +1,36 @@
 .container {
+
+  transition: 1s ease 0.3s;
+
   display: flex;
   flex-direction: column;
-  border-radius: 8px;
-  background: gainsboro;
+  border-radius: 4px;
+  background: #ebecf0;
   height: fit-content;
-  width: fit-content;
-  padding: 16px;
+  width: 300px;
+  padding: 12px;
+  gap: 16px;
+  box-sizing: border-box;
 
   .card-section {
     display: flex;
     flex-direction: column;
     gap: 8px;
+  }
+
+  h3 {
+    margin: 0;
+  }
+
+  button {
+    border: none;
+    height: 40px;
+    text-align: left;
+    font-size: 16px;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 4px;
+    }
   }
 }

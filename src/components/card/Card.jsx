@@ -2,17 +2,22 @@ import  React from 'react';
 import styles from './Card.module.scss'
 
 // eslint-disable-next-line react/prop-types
-const Card = ({cardId, label, assigned, parentId, onDrag}) => {
+const Card = ({cardId, label, parentId, onDrag}) => {
 
     const drag = (evt) => {
+        evt.stopPropagation();
+        console.log('drag started')
         let temp = {
             cardId,
             label,
-            assigned,
             parentId
         }
         evt.dataTransfer.setData("id", JSON.stringify(temp));
 
+    }
+
+    const dragHandler = (evt) => {
+        onDrag(evt, cardId)
     }
 
     return (
@@ -20,10 +25,9 @@ const Card = ({cardId, label, assigned, parentId, onDrag}) => {
             className={styles.card}
             draggable={true}
             onDragStart={(evt) => drag(evt)}
-            onDragOver={evt => onDrag(evt, cardId)}
+            onDragEnd={evt => dragHandler(evt)}
         >
-            <span>{label}</span>
-            <span>{assigned}</span>
+            {label}
         </div>
     )
 }

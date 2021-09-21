@@ -2,12 +2,11 @@ import React, {useState} from 'react';
 import styles from './CardsContainer.module.scss'
 import Card from "../card/Card";
 import CardBuilder from "../card-builder/CardBuilder";
-import {initialCards} from "../../utils/data";
 
 // eslint-disable-next-line react/prop-types
 const CardsContainer = ({id, name}) => {
 
-    const [cards, setCards] = useState(initialCards.slice(2,3));
+    const [cards, setCards] = useState([]);
     const [showCardForm, setShowCardForm] = useState(false);
 
     const showForm = () => setShowCardForm(true);
@@ -19,25 +18,32 @@ const CardsContainer = ({id, name}) => {
         setShowCardForm(false)
     }
 
-    const drop = (evt) => {
+    const handleDrop = (evt) => {
+        evt.preventDefault();
+        evt.stopPropagation();
         let node = JSON.parse(evt.dataTransfer.getData('id'));
         let card = {
             id: node.cardId,
             label: node.label,
-            assigned: node.assigned,
+            parentId: id
         }
         setCards(cards => [...cards, card]);
+        console.log('dropped to', name)
     }
 
-    const deleteCardOnDrag = (evt, cardId) => {
-        evt.preventDefault();
+    const deleteCardOnDragEnd = (evt, cardId) => {
+        // evt.preventDefault();
+        // evt.stopPropagation();
         let temp = cards.filter((card) => card.id !== cardId)
         setCards(temp);
-        console.log('dragged from', id)
+        console.log('drag ended')
     }
 
     return (
-        <div className={styles.container} onDrop={evt => drop(evt)} onDragOver={(e) => e.preventDefault()}>
+        <div
+            className={styles.container}
+            onDrop={evt => handleDrop(evt)}
+            onDragOver={(e) => e.preventDefault()}>
             {/* eslint-disable-next-line react/prop-types */}
             <h3>{name}</h3>
             <section className={styles['card-section']}>
@@ -49,8 +55,7 @@ const CardsContainer = ({id, name}) => {
                                 parentId={id}
                                 cardId={card.id}
                                 label={card.label}
-                                assigned={card.assigned}
-                                onDrag={deleteCardOnDrag}
+                                onDrag={deleteCardOnDragEnd}
                             />
                         )
                     })
@@ -58,10 +63,12 @@ const CardsContainer = ({id, name}) => {
             </section>
             {
                 !showCardForm
-                    ? <button onClick={showForm}>Add Card</button>
-                : <CardBuilder
-                    addCard={addCard}
-                />
+                    ? <button onClick={showForm}>+ Add a Card</button>
+                    : <CardBuilder
+                        addCard={addCard}
+                        parentId={id}
+                        hideForm={() => setShowCardForm(false)}
+                    />
             }
         </div>
     )

@@ -1,10 +1,11 @@
 import React, {useState} from 'react'
 import { v4 as uuidv4 } from 'uuid';
+import styles from './CardBuilder.module.scss'
 
-const CardBuilder = (props) => {
+// eslint-disable-next-line react/prop-types
+const CardBuilder = ({parentId, addCard, hideForm}) => {
 
     const [cardName, setCardName] = useState('');
-    const [assigned, setAssigned] = useState('');
 
     const cardNameHandler = (value) => {
         if (value.trim().length === 0) {
@@ -14,36 +15,37 @@ const CardBuilder = (props) => {
         setCardName(value)
     }
 
-    const assignedHandler = (value) => {
-        if (value.trim().length === 0) {
-            setAssigned('')
-            return
-        }
-        setAssigned(value)
-    }
-
-    const addCard = () => {
+    const addNewCard = () => {
         // eslint-disable-next-line react/prop-types
-        props.addCard( {
+        addCard({
             id: uuidv4(),
             label: cardName,
-            assigned: assigned
+            parentId: parentId
         })
         setCardName('')
-        setAssigned('')
     }
 
     return (
-        <div>
+        <div className={styles['card-builder']}>
             <section>
-                <label>Card Name</label>
-                <input value={cardName} onChange={(e) => cardNameHandler(e.target.value)}/>
+                <input
+                    value={cardName}
+                    onChange={(e) => cardNameHandler(e.target.value)}
+                    placeholder="Enter the title of this card..."
+                />
             </section>
-            <section>
-                <label>Assigned To</label>
-                <input value={assigned} onChange={(e) => assignedHandler(e.target.value)}/>
-            </section>
-            <button onClick={addCard}>Add Card</button>
+            <div className={styles['button-section']}>
+                <button
+                    disabled={cardName === ''}
+                    onClick={addNewCard}>
+                    Add Card
+                </button>
+                <button
+                    onClick={hideForm}>
+                    X
+                </button>
+            </div>
+
         </div>
     )
 }

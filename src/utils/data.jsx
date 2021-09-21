@@ -4,30 +4,28 @@ export const initialCards = [
     {
         id: uuidv4(),
         label: "First Card",
-        assigned: "Kartik"
     },
     {
         id: uuidv4(),
         label: "Second Card",
-        assigned: "Kartik"
     },
     {
         id: uuidv4(),
         label: "3rd Card",
-        assigned: "Kartik"
     },
     {
         id: uuidv4(),
         label: "4th Card",
-        assigned: "Kartik"
     }
 ]
 
 export const initialLists = [
     {
+        id: uuidv4(),
         name: "Todo"
     },
     {
+        id: uuidv4(),
         name: "In Progress"
     }
 ]

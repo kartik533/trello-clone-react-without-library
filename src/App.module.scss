@@ -1,4 +1,72 @@
 .App {
   display: flex;
-  gap: 16px;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  background: #eebd89;
+  height: 100vh;
+  width: 100vw;
+  font-family: 'Helvetica';
+
+
+  h2 {
+    font-family: 'Helvetica';
+  }
+
+  .todo-section {
+    display: flex;
+    gap: 16px;
+
+    .add-list-button {
+      border: none;
+      height: 40px;
+      text-align: left;
+      font-size: 16px;
+      width: 200px;
+      border-radius: 4px;
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.25);
+        border-radius: 4px;
+      }
+    }
+
+    .list-builder {
+      input {
+        height: 64px;
+        padding: 16px 0 32px 16px;
+        width: 300px;
+        box-sizing: border-box;
+        font-size: 16px;
+        border: none;
+        outline: none;
+        border-radius: 4px;
+        margin-bottom: 16px;
+      }
+
+      .list-button-section {
+        display: flex;
+        gap: 12px;
+        font-size: 16px;
+        height: 40px;
+
+        button {
+          border: none;
+          margin-left: 4px;
+          background: #5AAC44;
+          color: white;
+          border-radius: 4px;
+          font-size: 16px;
+          padding: 8px;
+        }
+
+        :last-child {
+          color: grey;
+          background: none;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
 }
