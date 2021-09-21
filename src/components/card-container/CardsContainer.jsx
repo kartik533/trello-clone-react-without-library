@@ -1,13 +1,14 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import styles from './CardsContainer.module.scss'
 import Card from "../card/Card";
 import CardBuilder from "../card-builder/CardBuilder";
 
 // eslint-disable-next-line react/prop-types
-const CardsContainer = ({id, name}) => {
+const Lists = ({id, name}) => {
 
     const [cards, setCards] = useState([]);
     const [showCardForm, setShowCardForm] = useState(false);
+    let isEventRegistered = useRef(false);
 
     const showForm = () => setShowCardForm(true);
 
@@ -28,15 +29,20 @@ const CardsContainer = ({id, name}) => {
             parentId: id
         }
         setCards(cards => [...cards, card]);
+        const event = new CustomEvent('dropSuccess', {detail : {cardId: node.cardId, newParentId: id}});
+        document.dispatchEvent(event);
         console.log('dropped to', name)
     }
 
-    const deleteCardOnDragEnd = (evt, cardId) => {
-        // evt.preventDefault();
-        // evt.stopPropagation();
-        let temp = cards.filter((card) => card.id !== cardId)
-        setCards(temp);
-        console.log('drag ended')
+    if (!isEventRegistered.current) {
+        document.addEventListener('dropSuccess', (evt) => {
+            console.log('triggering in ', name)
+            if (id !== evt.detail.newParentId) {
+                let temp = cards.filter((card) => card.id !== evt.detail.cardId)
+                setCards(temp);
+            }
+        })
+        isEventRegistered.current = true
     }
 
     return (
@@ -55,7 +61,6 @@ const CardsContainer = ({id, name}) => {
                                 parentId={id}
                                 cardId={card.id}
                                 label={card.label}
-                                onDrag={deleteCardOnDragEnd}
                             />
                         )
                     })
@@ -74,4 +79,4 @@ const CardsContainer = ({id, name}) => {
     )
 }
 
-export default CardsContainer;
+export default Lists;

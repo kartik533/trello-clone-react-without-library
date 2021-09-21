@@ -1,5 +1,5 @@
 import './App.css';
-import CardsContainer from "./components/card-container/CardsContainer";
+import Lists from "./components/card-container/CardsContainer";
 import React, {useState} from "react";
 import styles from './App.module.scss'
 import {initialLists} from "./utils/data";
@@ -27,7 +27,7 @@ function App() {
                 {
                     lists.map((list, index) => {
                         return (
-                            <CardsContainer
+                            <Lists
                                 key={index}
                                 id={list.id}
                                 name={list.name}
